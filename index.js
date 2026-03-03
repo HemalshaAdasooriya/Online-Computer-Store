@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import dns from "node:dns/promises";
 import studentRouter from "./routes/studentRouter.js";
 import userRouter from "./routes/userRouter.js";
+import jwt from "jsonwebtoken"
 dns.setServers(["1.1.1.1"]);
 
 const mongodbURI = "mongodb+srv://admin:1234@cluster0.wnkxql3.mongodb.net/?appName=Cluster0"
@@ -16,6 +17,19 @@ mongoose.connect(mongodbURI).then(
 let app = express()
 
 app.use(express.json())
+
+app.use(
+    (req,res,next)=>{
+        const authorizationHeader = req.header("Authorization")
+        if(authorizationHeader != null){
+            const token = authorizationHeader.replace("Bearer ","")
+            console.log(token)
+        }
+        
+        next()
+
+})
+
 
 app.use("/students",studentRouter) 
 app.use("/users",userRouter)
