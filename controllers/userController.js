@@ -68,7 +68,7 @@ export function loginUser(req,res){
     )
 }
 
-//is there a admin
+
 export function isAdmin(req){
     if(req.user == null){
         

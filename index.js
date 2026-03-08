@@ -2,6 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import dns from "node:dns/promises";
 import userRouter from "./routes/userRouter.js";
+import productRouter from "./routes/productRouter.js";
 import jwt from "jsonwebtoken"
 dns.setServers(["1.1.1.1"]);
 
@@ -47,6 +48,7 @@ app.use(
 
 
 app.use("/users",userRouter)
+app.use("/products",productRouter)
 
 
 app.listen(5000,()=>{

@@ -1,15 +1,16 @@
 import Product from "../models/Product.js";
 import { isAdmin } from "./userController.js";
  
-if(! isAdmin){
+
+
+export function createProduct(req,res){
+    if(!isAdmin(req)){
     req.status(403).json({
         message : "Forbidden"
     });
     return
 }
 
-export function createProduct(req,res){
-    const a = isAdmin(req)
     const product = new Product(req.body)
     product.save().then(
         ()=>{
@@ -44,4 +45,24 @@ export function getAllProducts(req,res){
             })
         })
     }
+}
+
+export function deleteProduct(res,req){
+    if(!isAdmin(req)){
+        res.status(403).json({
+            message : "only admin can delete products"
+        });
+        return
+    }
+
+    const productId = req.body.productId
+
+    Product.deleteone({productId : productId}).then(
+        ()=>{
+            res.json({
+                message : "Product deleted successfully"
+            }) 
+        }
+    )
+
 }
